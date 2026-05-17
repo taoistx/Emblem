@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FE5.Combat;
 
 namespace FE5.Units
 {
@@ -40,6 +41,8 @@ namespace FE5.Units
         [Signal] public delegate void StateChangedEventHandler(UnitState newState);
         [Signal] public delegate void MoveStartedEventHandler();
         [Signal] public delegate void MoveCompletedEventHandler();
+        [Signal] public delegate void LeveledUpEventHandler(LevelUpResult result);
+        [Signal] public delegate void ExperienceGainedEventHandler(int amount);
 
         public override void _Ready()
         {
@@ -112,7 +115,43 @@ namespace FE5.Units
             }
         }
 
-        // 立即传送到目标格子（无动画）
+        public BaseStats GetBaseStats()
+        {
+            return Stats.Base;
+        }
+
+        public LevelUpResult AddExperience(int amount)
+        {
+            var result = ExperienceManager.AddExperience(this, amount);
+            EmitSignal(SignalName.ExperienceGained, amount);
+
+            if (result.LeveledUp)
+            {
+                GD.Print($"[{UnitName}] 升级! Lv.{result.PreviousLevel} → Lv.{result.NewLevel}");
+                if (result.StatIncreases.Count > 0)
+                {
+                    GD.Print($"  属性提升: {string.Join(", ", result.StatIncreases)}");
+                }
+                EmitSignal(SignalName.LeveledUp, result);
+            }
+            else
+            {
+                GD.Print($"[{UnitName}] 获得 {amount} EXP ({Stats.Experience}/{ExperienceManager.ExpToLevel})");
+            }
+
+            return result;
+        }
+
+        public int GetExpToNextLevel()
+        {
+            return ExperienceManager.GetExpToNextLevel(Stats.Experience);
+        }
+
+        public bool CanLevelUp()
+        {
+            return ExperienceManager.CanLevelUp(Stats.Level);
+        }
+
         public void MoveTo(Vector2I gridPos)
         {
             GridPosition = gridPos;
@@ -122,7 +161,6 @@ namespace FE5.Units
             EmitSignal(SignalName.StateChanged, (int)State);
         }
 
-        // 直线移动到目标格子（逐格动画，不经过寻路）
         public void MoveToWithAnimation(Vector2I targetGridPos, int cellSize = 32)
         {
             if (IsMoving)
@@ -161,7 +199,6 @@ namespace FE5.Units
             EmitSignal(SignalName.StateChanged, (int)State);
         }
 
-        // 沿 BFS 路径逐格移动（匀速平滑插值）
         public void MoveAlongPath(List<Vector2I> path, int cellSize = 32)
         {
             if (IsMoving || path.Count < 2)
@@ -198,7 +235,6 @@ namespace FE5.Units
             EmitSignal(SignalName.StateChanged, (int)State);
         }
 
-        // 取消移动动画
         public void CancelMove()
         {
             if (_moveTween != null && _moveTween.IsValid())
@@ -258,7 +294,7 @@ namespace FE5.Units
 
         public override string ToString()
         {
-            return $"[{UnitName}] {Faction} - {Stats} - 位置:{GridPosition} - 状态:{State}";
+            return $"[{UnitName}] Lv.{Stats.Level} {Faction} - HP:{Stats.HP}/{Stats.MaxHP} - 位置:{GridPosition} - 状态:{State}";
         }
     }
 }

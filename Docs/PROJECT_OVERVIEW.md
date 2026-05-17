@@ -52,6 +52,7 @@ Handles all battle logic and combat flow management.
 | `BattleManager.cs` | Manages battle flow, handles battle start/process/end |
 | `BattleResult.cs` | Data structure storing battle outcome and stat changes |
 | `CombatCalculator.cs` | Calculates damage, hit chance, critical rate, etc. |
+| `ExperienceManager.cs` | Experience point calculation and management (interfaces only) |
 
 ### 2. Core System (Core/)
 
@@ -80,13 +81,17 @@ Character/unit attributes and management.
 | File | Description |
 |------|-------------|
 | `Unit.cs` | Base unit class with common properties and behaviors |
-| `UnitStats.cs` | Stores combat stats (HP, attack, defense, etc.) |
+| `UnitStats.cs` | Stores combat stats (HP, attack, defense, etc.), includes growth system |
+| `BaseStats.cs` | Standalone base stats class for encapsulation |
+| `GrowthManager.cs` | Handles level-up stat growth calculation |
+| `LevelUpResult.cs` | Data structure for level-up results (inherits Godot RefCounted) |
 
 ### 5. Testing Module (Test/)
 
 | File | Description |
 |------|-------------|
 | `TestRunner.cs` | Executes unit tests and integration tests |
+| `TestGrowthSystem.cs` | Unit tests for the character growth system |
 
 ---
 
@@ -135,6 +140,11 @@ VSCode debug launch configuration is available in `.vscode/launch.json`.
 - Basic turn system implemented
 - Map rendering and pathfinding functional
 - Basic combat calculation completed
+- Character attribute system implemented (BaseStats, UnitStats)
+- Level and experience system implemented (Level 1-20, 100 EXP per level)
+- Growth rate system implemented (independent growth per stat)
+- Weapon proficiency system implemented (9 weapon types, E-S ranks)
+- Experience calculation interfaces designed (algorithms pending implementation)
 
 ### Next Milestone
 Complete battle system implementation with animations and visual feedback.

@@ -19,6 +19,8 @@ script = ExtResource("2_t199a")
 
 [node name="MapManager" type="Node2D" parent="." unique_id=483650036]
 script = ExtResource("4_6h35a")
+MapWidth = 50
+MapHeight = 50
 
 [node name="MapRenderer" type="Node2D" parent="MapManager" unique_id=475715290]
 script = ExtResource("5_7h26b")
@@ -27,7 +29,7 @@ SelectionColor = Color(0.2, 0.4, 0.8, 0.6)
 GridLineColor = Color(0.3, 0.3, 0.3, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2021048122]
-position = Vector2(54, 58)
+position = Vector2(578, 323)
 
 [node name="PlayerUnits" type="Node2D" parent="." unique_id=287142254]
 

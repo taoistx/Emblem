@@ -71,5 +71,20 @@ namespace FE5.Combat
                 return $"无追击 (AS差:{asDiff})";
             }
         }
+
+        public static int CalculateHitExp(int damage)
+        {
+            return ExperienceManager.CalculateHitExp(damage);
+        }
+
+        public static int CalculateDefeatExp(Unit enemy, Unit attacker)
+        {
+            return ExperienceManager.CalculateDefeatExp(enemy.Stats.Level, attacker.Stats.Level);
+        }
+
+        public static int CalculateStaffExp(StaffType staffType, int effectValue)
+        {
+            return ExperienceManager.CalculateStaffExp(staffType, effectValue);
+        }
     }
 }
