@@ -1,3 +1,10 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Trae AI editor artifacts
+.trae/
+
+# Temp files
+*.tmp
+*.tmp.*
