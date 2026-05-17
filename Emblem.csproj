@@ -1,0 +1,17 @@
+<Project Sdk="Godot.NET.Sdk/4.6.2">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>FE5</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Scripts\Core\**\*.cs" />
+    <Compile Include="Scripts\Units\**\*.cs" />
+    <Compile Include="Scripts\Map\**\*.cs" />
+    <Compile Include="Scripts\Combat\**\*.cs" />
+    <Compile Include="Scripts\Test\**\*.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://b5h7k6887q64"]
+
+[ext_resource type="Script" uid="uid://cd43ycoar87bl" path="res://Scripts/Test/TestRunner.cs" id="1_i8k7t"]
+[ext_resource type="Script" uid="uid://bk5v03gdp0hx0" path="res://Scripts/Core/TurnManager.cs" id="2_t199a"]
+[ext_resource type="Script" uid="uid://dy2yfxhxmxtxa" path="res://Scripts/Combat/BattleManager.cs" id="3_8h74o"]
+[ext_resource type="Script" uid="uid://12po6lnjhprl" path="res://Scripts/Map/MapManager.cs" id="4_6h35a"]
+[ext_resource type="Script" uid="uid://brq4a488184hf" path="res://Scripts/Map/MapRenderer.cs" id="5_7h26b"]
+[ext_resource type="Script" uid="uid://cfdsyv1sr1jue" path="res://Scripts/Map/UserInputHandler.cs" id="6_8h37c"]
+[ext_resource type="Texture2D" uid="uid://oya8wpn6jmc8" path="res://icon.svg" id="6_50glp"]
+[ext_resource type="Script" uid="uid://d2cblwliyeo41" path="res://Scripts/Units/Unit.cs" id="7_9h48d"]
+
+[node name="Main" type="Node2D" unique_id=113006110]
+
+[node name="TestRunner" type="Node" parent="." unique_id=1308129660]
+script = ExtResource("1_i8k7t")
+
+[node name="TurnManager" type="Node" parent="." unique_id=1236266232]
+script = ExtResource("2_t199a")
+
+[node name="MapManager" type="Node2D" parent="." unique_id=483650036]
+script = ExtResource("4_6h35a")
+
+[node name="MapRenderer" type="Node2D" parent="MapManager" unique_id=475715290]
+script = ExtResource("5_7h26b")
+HighlightColor = Color(0.8, 0.8, 0.2, 0.5)
+SelectionColor = Color(0.2, 0.4, 0.8, 0.6)
+GridLineColor = Color(0.3, 0.3, 0.3, 0.5)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2021048122]
+position = Vector2(54, 58)
+
+[node name="PlayerUnits" type="Node2D" parent="." unique_id=287142254]
+
+[node name="Knight" type="CharacterBody2D" parent="PlayerUnits" unique_id=1245138285 groups=["Units"]]
+position = Vector2(204, 176)
+script = ExtResource("7_9h48d")
+UnitName = "骑士"
+
+[node name="KnightSprite" type="Sprite2D" parent="PlayerUnits/Knight" unique_id=1669625719]
+scale = Vector2(1.5, 1.5)
+
+[node name="Archer" type="CharacterBody2D" parent="PlayerUnits" unique_id=1011137998 groups=["Units"]]
+position = Vector2(496, 336)
+script = ExtResource("7_9h48d")
+UnitName = "弓箭手"
+
+[node name="ArcherSprite" type="Sprite2D" parent="PlayerUnits/Archer" unique_id=2011450434]
+scale = Vector2(1.5, 1.5)
+
+[node name="Ally" type="CharacterBody2D" parent="PlayerUnits" unique_id=2108893655 groups=["Units"]]
+position = Vector2(336, 240)
+script = ExtResource("7_9h48d")
+UnitName = "修女"
+Faction = 2
+
+[node name="AllySprite" type="Sprite2D" parent="PlayerUnits/Ally" unique_id=965147809]
+scale = Vector2(1.5, 1.5)
+
+[node name="Enemy" type="CharacterBody2D" parent="PlayerUnits" unique_id=50342869 groups=["Units"]]
+position = Vector2(272, 112)
+script = ExtResource("7_9h48d")
+UnitName = "盗贼"
+Faction = 1
+
+[node name="EnemySprite" type="Sprite2D" parent="PlayerUnits/Enemy" unique_id=702018676]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("6_50glp")
+
+[node name="UserInputHandler" type="Node" parent="." unique_id=839905195]
+script = ExtResource("6_8h37c")
+
+[node name="BattleManager" type="Node" parent="." unique_id=435372011]
+script = ExtResource("3_8h74o")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=550845530]
+
+[node name="HUD" type="Panel" parent="UI" unique_id=413493192]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.05
+offset_right = 1024.0
+offset_bottom = 40.0
+
+[node name="TurnInfo" type="Label" parent="UI/HUD" unique_id=794993090]
+layout_mode = 0
+offset_left = 417.0
+offset_top = 5.0
+offset_right = 617.0
+offset_bottom = 35.0
+text = "第 1 回合 - 玩家回合"
+
+[node name="SelectedUnitInfo" type="Label" parent="UI/HUD" unique_id=1621145828]
+layout_mode = 0
+offset_left = 676.0
+offset_top = 5.0
+offset_right = 976.0
+offset_bottom = 35.0
+text = "选择单位查看信息"
+
+[node name="ActionHint" type="Label" parent="UI/HUD" unique_id=646557903]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -117.0
+offset_top = 4.0
+offset_right = 123.0
+offset_bottom = 34.0
+grow_horizontal = 2
+text = "左键选择/移动 | 右键取消 | WASD移动"
+
+[node name="DebugInfo" type="Label" parent="UI/HUD" unique_id=2087025214]
+layout_mode = 0
+offset_left = 530.0
+offset_top = 5.0
+offset_right = 780.0
+offset_bottom = 35.0
+
+[node name="EndTurnButton" type="Button" parent="UI/HUD" unique_id=-2140099975]
+layout_mode = 0
+anchor_right = 1.0
+offset_left = -120.0
+offset_top = 5.0
+offset_right = -10.0
+offset_bottom = 35.0
+text = "结束回合"
+
+[node name="PhaseSubtitle" type="Label" parent="UI" unique_id=-1028985824]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 36
+text = "准备"
+horizontal_alignment = 1
+vertical_alignment = 1
